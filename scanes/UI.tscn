@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://civasd0x7is2g"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_sxaaq"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="sprint_slider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 214.0
+offset_top = 482.0
+offset_right = 687.0
+offset_bottom = 565.0
+scale = Vector2(0.961708, 0.812784)
+theme_override_icons/grabber = SubResource("ImageTexture_sxaaq")
+max_value = 1.0
+step = 0.0
+value = 1.0
+
+[node name="Interact_text" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 15.0
+offset_right = 303.0
+offset_bottom = 64.0
+theme_override_font_sizes/normal_font_size = 25
+text = "[E] Interact"

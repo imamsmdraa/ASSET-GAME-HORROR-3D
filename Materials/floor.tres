@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cl1fe436c57e0"]
+
+[ext_resource type="Texture2D" uid="uid://c1qm2ripj4gnu" path="res://Materials/Beigewall_Texture.png" id="1_ugebw"]
+
+[resource]
+albedo_color = Color(0.497474, 0.497474, 0.497474, 1)
+albedo_texture = ExtResource("1_ugebw")
+roughness = 0.0
+uv1_scale = Vector3(1.945, 1.945, 1.945)

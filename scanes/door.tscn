@@ -1,0 +1,160 @@
+[gd_scene load_steps=13 format=3 uid="uid://bt1ccw0frbkiu"]
+
+[ext_resource type="Material" uid="uid://b4nkjti4i4gj8" path="res://Materials/Flash_Light.tres" id="1_a8eeb"]
+[ext_resource type="Script" path="res://Scripts/door_parrent.gd" id="1_dx4jl"]
+[ext_resource type="Script" path="res://Scripts/door.gd" id="2_am3yj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1ta3g"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rx4ef"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5wflf"]
+radial_segments = 14
+
+[sub_resource type="Animation" id="Animation_oln3f"]
+resource_name = "Close"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 1.48353, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_fsfbw"]
+resource_name = "Open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 1.48353, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hinge:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.104, 0.493)]
+}
+
+[sub_resource type="Animation" id="Animation_umuor"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.39626, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hinge:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.104, 0.493)]
+}
+
+[sub_resource type="Animation" id="Animation_w0gth"]
+resource_name = "locked"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.18682, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qd3s2"]
+_data = {
+"Close": SubResource("Animation_oln3f"),
+"Open": SubResource("Animation_fsfbw"),
+"RESET": SubResource("Animation_umuor"),
+"locked": SubResource("Animation_w0gth")
+}
+
+[sub_resource type="GDScript" id="GDScript_cycyw"]
+script/source = "extends AnimationPlayer
+
+var interacible = true
+var opened = false
+
+func interact():
+	if interacible == true:
+		interacible = false
+		opened = !opened
+		if opened == false:
+			$AnimationPlayer.play(\"Close\")
+		if opened == true:
+			$AnimationPlayer.play(\"Open\")
+		await  get_tree().create_timer(1.0, false).timeout
+		interacible = true
+"
+
+[node name="Door" type="Node3D"]
+transform = Transform3D(0.173652, 0, 0.984807, 0, 1, 0, -0.984807, 0, 0.173652, 0, 0, 0)
+script = ExtResource("1_dx4jl")
+
+[node name="Hinge" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 1.49012e-08, 0, 1.5, 0, -1.49012e-08, 0, 1, 0, -0.104, 0.493)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Hinge"]
+transform = Transform3D(0.088, 0, -1.16415e-08, 0, 1.5, 0, 9.31323e-10, 0, 1.1, 0, 0, 0)
+script = ExtResource("2_am3yj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge/StaticBody3D"]
+shape = SubResource("BoxShape3D_1ta3g")
+
+[node name="door_base" type="MeshInstance3D" parent="Hinge/StaticBody3D"]
+transform = Transform3D(1, 0, 2.38419e-07, 0, 1, 0, 1.86265e-09, 0, 1, 0, 0, 0)
+material_override = ExtResource("1_a8eeb")
+mesh = SubResource("BoxMesh_rx4ef")
+
+[node name="Handle" type="MeshInstance3D" parent="Hinge/StaticBody3D"]
+transform = Transform3D(-3.0598e-09, -2.253, 3.0598e-09, 0, -9.84818e-08, -0.07, 0.07, -9.84818e-08, 1.33748e-16, -0.142886, 0.0249442, 0.378514)
+mesh = SubResource("CylinderMesh_5wflf")
+
+[node name="knob" type="MeshInstance3D" parent="Hinge/StaticBody3D"]
+transform = Transform3D(-4.72083e-09, -0.427, 4.72083e-09, 0, -1.86648e-08, -0.108, 0.108, -1.86648e-08, 2.06354e-16, -1.90643, 0.0260794, 0.37598)
+mesh = SubResource("CylinderMesh_5wflf")
+
+[node name="knob2" type="MeshInstance3D" parent="Hinge/StaticBody3D"]
+transform = Transform3D(-4.72083e-09, -0.427, 4.72083e-09, 0, -1.86647e-08, -0.108, 0.108, -1.86648e-08, 2.06354e-16, 1.53121, 0.0260794, 0.375979)
+mesh = SubResource("CylinderMesh_5wflf")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hinge/StaticBody3D"]
+root_node = NodePath("../../..")
+libraries = {
+"": SubResource("AnimationLibrary_qd3s2")
+}
+script = SubResource("GDScript_cycyw")

@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bvrcxi87ucihc"]
+
+[ext_resource type="Texture2D" uid="uid://dfj46ktdjo80e" path="res://Materials/Brickwall6_Texture.png" id="1_y7ijn"]
+
+[resource]
+render_priority = 127
+albedo_color = Color(0.4, 0.0941176, 0.113725, 1)
+albedo_texture = ExtResource("1_y7ijn")
+heightmap_scale = 12.514
+heightmap_flip_binormal = true
+refraction_scale = 1.0
+uv1_scale = Vector3(4.085, 4.085, 4.085)
+uv1_offset = Vector3(4.01, 0, 0)
+grow = true
