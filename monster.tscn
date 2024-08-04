@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://dtbp04y30v57o"]
+
+[ext_resource type="Script" path="res://Scripts/monster.gd" id="1_6y0bd"]
+[ext_resource type="Material" uid="uid://ccnimiwmq22vb" path="res://Materials/monster.tres" id="2_ieixe"]
+[ext_resource type="Material" uid="uid://dbaesc5jig813" path="res://Materials/table.tres" id="2_m18u4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1iqrl"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_dodah"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_foewv"]
+
+[node name="Monster" type="CharacterBody3D" groups=["monster"]]
+script = ExtResource("1_6y0bd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_1iqrl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1.56612, 0, 1.43919, 0, -1, 0, -6.84575e-08, 0.0478963, 0.305261, 0)
+material_override = ExtResource("2_ieixe")
+mesh = SubResource("BoxMesh_dodah")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.276891, 0, 0, 0, 1, -0.506142, 0.495949, 0)
+visible = false
+material_override = ExtResource("2_m18u4")
+mesh = SubResource("CapsuleMesh_foewv")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+
+[node name="jumpscare_camera" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.346, 0.59, 0)
+
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="on_navigation_agent_3d_velocity_computed"]
