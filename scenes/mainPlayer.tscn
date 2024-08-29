@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3 uid="uid://ck764v5c64elr"]
+
+[ext_resource type="Script" path="res://Scripts/mainPlayer.gd" id="1_ynaob"]
+[ext_resource type="Script" path="res://Scripts/Character.gd" id="2_tlwbr"]
+[ext_resource type="PackedScene" uid="uid://btbn4k0yjs8g7" path="res://scenes/Pause_Menu.tscn" id="3_puxgm"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_stti2"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_n4cp4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_41yll"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lnvwg"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_ynaob")
+
+[node name="CharacterBody3D2" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.1503, 0)
+script = ExtResource("2_tlwbr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D2"]
+shape = SubResource("CapsuleShape3D_stti2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D2/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_n4cp4")
+skeleton = NodePath("../../CharacterBody3D")
+
+[node name="CharacterBody3D" type="Camera3D" parent="CharacterBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.697642, 0)
+
+[node name="Control" parent="CharacterBody3D2/CharacterBody3D" instance=ExtResource("3_puxgm")]
+visible = false
+size_flags_vertical = 4
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("BoxMesh_41yll")
+skeleton = NodePath("CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D"]
+shape = SubResource("BoxShape3D_lnvwg")
